@@ -15,7 +15,7 @@ public class Game extends Observable implements Runnable{
 	public Game(Position dimension){
 		this.dimension = dimension;
 		this.gameActive = true;
-		this.snake = new Snake(new Position(10,10));
+		this.snake = new Snake(new Position(10,10),this);
 		this.apple = new Apple(new Position(rand.nextInt(this.dimension.getX()),rand.nextInt(this.dimension.getY())));
 		new Thread(this).start();
 	}

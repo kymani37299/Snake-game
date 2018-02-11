@@ -9,13 +9,16 @@ public class Snake {
 	private Direction direction;
 	private Direction definiteDirection;
 	private boolean alive;
+	private Game game;
 	
-	public Snake(Position position){
+	
+	public Snake(Position position,Game game){
 		this.snake = new LinkedList<>();
 		this.snake.add(new Piece(position));
 		this.direction = Direction.RIGHT;
-		this.snake.add(new Piece(this.direction,position));
+		this.snake.add(new Piece(position));
 		this.alive = true;
+		this.game = game;
 	}
 	
 	public void grow(){
@@ -23,7 +26,7 @@ public class Snake {
 	}
 	
 	public Piece move(){
-		this.snake.addFirst(new Piece(this.direction,this.getPosition()));
+		this.snake.addFirst(new Piece(this.direction,this.getPosition(),this.game));
 		Piece last = this.snake.removeLast();
 		for(Piece p : snake){
 			if(p!=this.snake.getFirst() && p.getPosition().equals(this.getPosition())){
