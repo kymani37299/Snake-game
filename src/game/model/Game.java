@@ -3,6 +3,8 @@ package game.model;
 import java.util.Observable;
 import java.util.Random;
 
+import game.controller.GameController;
+
 public class Game extends Observable implements Runnable{
 
 	private final int FPS = 10;
@@ -11,8 +13,11 @@ public class Game extends Observable implements Runnable{
 	private Position dimension;
 	private boolean gameActive;
 	private Random rand = new Random();
+	private GameController controller;
+	private GameMode mode;
 	
-	public Game(Position dimension){
+	public Game(Position dimension,GameMode mode){
+		this.mode = mode;
 		this.dimension = dimension;
 		this.gameActive = true;
 		this.snake = new Snake(new Position(10,10),this);
@@ -56,9 +61,16 @@ public class Game extends Observable implements Runnable{
 		return this.dimension;
 	}
 
+	public void setController(GameController controller){
+		this.controller = controller;
+	}
+	
 	@Override
 	public void run() {
 		while(gameActive){
+			if(this.controller!=null){
+				this.snake.setDirection(this.controller.getAction());
+			}
 			this.updateGame();
 			try {
 				Thread.sleep(1000/FPS);
