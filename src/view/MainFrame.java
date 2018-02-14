@@ -1,6 +1,7 @@
 package view;
 
 import bot.Bot;
+import game.controller.GameController;
 import game.listeners.KeyListener;
 import game.model.Game;
 import game.model.GameMode;
@@ -12,9 +13,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class MainFrame extends Stage{
-
+	
 	private static MainFrame instance;
+	public static Position mapSize = new Position(20, 20);
 	private BorderPane layout;
+	private GameController bot;
 	
 	private MainFrame(){
 		this.layout = new BorderPane();
@@ -25,15 +28,30 @@ public class MainFrame extends Stage{
 	}
 	
 	public void playGame(GameMode mode){
-		Game game = new Game(new Position(20,20),mode);
-		this.layout.setCenter(new GameView(game));
-		this.layout.setPadding(new Insets(0));
-		this.sizeToScene();
-		if(mode == GameMode.Play){
-			this.getScene().setOnKeyPressed(new KeyListener(game.getSnake()));
-		}else if(mode==GameMode.Bot){
-			game.setController(new Bot());
+		if(mode != GameMode.Train){
+			Game game = new Game(mapSize,mode);
+			this.layout.setCenter(new GameView(game));
+			this.layout.setPadding(new Insets(0));
+			this.sizeToScene();
+			if(mode == GameMode.Play){
+				this.getScene().setOnKeyPressed(new KeyListener(game.getSnake()));
+			}else if(mode==GameMode.Bot){
+				if(this.bot == null){ // TODO: Load from file best snake ever
+					game.setController(new Bot(null,game));
+				}else{
+					this.bot.setGame(game);
+					game.setController(this.bot);
+				}
+			}
+			game.startGame();
+		}else{
+			this.layout.setCenter(new TrainingSettingsDialog());
+			this.sizeToScene();
 		}
+	}
+	
+	public void setBot(GameController bot){
+		this.bot = bot;
 	}
 	
 	public static MainFrame getInstance(){

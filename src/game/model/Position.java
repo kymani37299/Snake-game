@@ -10,6 +10,22 @@ public class Position {
 		this.y = y;
 	}
 
+	public void incX(){
+		this.x++;
+	}
+	
+	public void incY(){
+		this.y++;
+	}
+	
+	public void decX(){
+		this.x--;
+	}
+	
+	public void decY(){
+		this.y--;
+	}
+	
 	public int getX() {
 		return x;
 	}

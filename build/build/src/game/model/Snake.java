@@ -1,5 +1,6 @@
 package game.model;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -38,6 +39,14 @@ public class Snake {
 		return last;
 	}
 	
+	public ArrayList<Position> getSnake(){
+		ArrayList<Position> wholeSnake = new ArrayList<Position>();
+		for(Piece p : this.snake){
+			wholeSnake.add(p.getPosition());
+		}
+		return wholeSnake;
+	}
+	
 	public Position getPosition(){
 		return this.snake.getFirst().getPosition();
 	}
@@ -51,6 +60,10 @@ public class Snake {
 	}
 
 	public void setDirection(Direction direction) {
+		if(direction == Direction.UP && this.direction == Direction.DOWN) return;
+		if(direction == Direction.DOWN && this.direction == Direction.UP) return;
+		if(direction == Direction.LEFT && this.direction == Direction.RIGHT) return;
+		if(direction == Direction.RIGHT && this.direction == Direction.LEFT) return;
 		this.direction = direction;
 	}
 	

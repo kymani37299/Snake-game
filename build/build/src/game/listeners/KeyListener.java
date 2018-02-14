@@ -17,20 +17,16 @@ public class KeyListener implements EventHandler<KeyEvent>{
 	public void handle(KeyEvent event) {
 		switch(event.getCode()){
 		case UP:
-			if(this.snake.getDirection() != Direction.DOWN)
-				this.snake.setDirection(Direction.UP);
+			this.snake.setDirection(Direction.UP);
 			break;
 		case DOWN:
-			if(this.snake.getDirection() != Direction.UP)
-				this.snake.setDirection(Direction.DOWN);
+			this.snake.setDirection(Direction.DOWN);
 			break;
 		case LEFT:
-			if(this.snake.getDirection() != Direction.RIGHT)
-				this.snake.setDirection(Direction.LEFT);
+			this.snake.setDirection(Direction.LEFT);
 			break;
 		case RIGHT:
-			if(this.snake.getDirection() != Direction.LEFT)
-				this.snake.setDirection(Direction.RIGHT);
+			this.snake.setDirection(Direction.RIGHT);
 			break;
 		default:
 			break;
