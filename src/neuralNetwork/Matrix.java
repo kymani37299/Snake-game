@@ -54,6 +54,20 @@ public class Matrix {
 		return product;
 	}
 	
+	public Matrix add(Matrix other){
+		assert this.nColumns == other.nColumns && this.nRows == other.nRows: "Invalid matrix addition ("
+				+ this.nRows + "x" + this.nColumns + ")" + "x" 
+				+"(" + other.nRows + "x" + other.nColumns + ")";
+		Matrix sum = new Matrix(this.nRows,this.nColumns);
+		for(int i=0;i<this.nRows;i++){
+			for(int j=0;j<this.nColumns;j++){
+				sum.matrix[i][j] = this.matrix[i][j] + other.matrix[i][j];
+			}
+		}
+		
+		return sum;
+	}
+	
 	public void applySigmoid(){
 		for(int i=0;i<this.nRows;i++){
 			for(int j=0;j<this.nColumns;j++){

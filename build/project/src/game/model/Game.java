@@ -23,7 +23,7 @@ public class Game extends Observable implements Runnable{
 		this.dimension = dimension;
 		this.gameActive = true;
 		this.snake = new Snake(new Position(10,10),this);
-		this.apple = new Apple(new Position(rand.nextInt(this.dimension.getX()),rand.nextInt(this.dimension.getY())));
+		this.apple = this.getRandomApple();
 		this.apples = new ArrayList<>();
 		this.apples.add(this.apple);
 	}
@@ -31,7 +31,7 @@ public class Game extends Observable implements Runnable{
 	private void updateGame(){
 		if(this.snake.getPosition().equals(this.apple.getPosition())){
 			this.snake.grow();
-			this.apple = new Apple(new Position(rand.nextInt(this.dimension.getX()),rand.nextInt(this.dimension.getY())));
+			this.apple = this.getRandomApple();
 			this.apples.add(this.apple);
 			this.notifyObservers(this.apple);
 		}else{
@@ -43,6 +43,19 @@ public class Game extends Observable implements Runnable{
 			this.notifyObservers(p);
 		}
 		this.setChanged();
+	}
+	
+	private Apple getRandomApple(){
+		ArrayList<Position> space = new ArrayList<Position>();
+		for(int i=0;i<this.dimension.getX();i++){
+			for(int j=0;j<this.dimension.getY();j++){
+				space.add(new Position(i,j));
+			}
+		}
+		for(Position p : this.snake.getSnake()){
+			space.remove(p);
+		}
+		return new Apple(space.get(rand.nextInt(space.size())));
 	}
 	
 	private void pauseGame(){

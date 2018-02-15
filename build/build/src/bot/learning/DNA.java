@@ -16,6 +16,7 @@ public class DNA {
 	private int numLayers;
 	private Matrix inputWeights;
 	private Matrix outputWeights;
+	private Matrix bias[];
 	private int fitness;
 	private Game game;
 	
@@ -23,11 +24,16 @@ public class DNA {
 		this.numLayers = numLayers;
 		this.inputWeights = new Matrix(NeuralNetwork.numInputs,numLayers);
 		this.outputWeights = new Matrix(numLayers,NeuralNetwork.numOutputs);
+		this.bias = new Matrix[2];
+		this.bias[0] = new Matrix(1,numLayers);
+		this.bias[1] = new Matrix(1,NeuralNetwork.numOutputs);
 	}
 	
 	public void randomize(){
 		this.outputWeights.randomize(-1, 1);
 		this.inputWeights.randomize(-1, 1);
+		this.bias[0].randomize(-1,1);
+		this.bias[1].randomize(-1,1);
 	}
 
 	public DNA combine(DNA other){
@@ -56,6 +62,18 @@ public class DNA {
 				}
 			}
 		}
+		for(int i=0;i<2;i++){
+			for(int j=0;j<child.bias[i].getnRows();j++){
+				int r = rand.nextInt(3);
+				if(r==0){
+					child.bias[i].set(j,0, this.bias[i].get(j,0));
+				}else if(r==1){
+					child.bias[i].set(j,0, other.bias[i].get(j,0));
+				}else{
+					child.bias[i].set(j,0, (this.bias[i].get(j,0)+other.bias[i].get(j,0))/2);
+				}
+			}
+		}
 		
 		return child;
 	}
@@ -78,6 +96,16 @@ public class DNA {
 				}
 			}
 		}
+		
+		for(int i=0;i<2;i++){
+			for(int j=0;j<this.bias[i].getnRows();j++){
+				int r = rand.nextInt(100);
+				if(r < mutationRate){
+					this.bias[i].randomize(j,0, -1, 1);
+				}
+			}
+		}
+		
 	}
 	
 	public int calculateFitness(){
@@ -94,6 +122,10 @@ public class DNA {
 
 	public Matrix getOutputWeights() {
 		return outputWeights;
+	}
+	
+	public Matrix[] getBias() {
+		return bias;
 	}
 	
 }
