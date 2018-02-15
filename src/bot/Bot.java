@@ -74,8 +74,8 @@ public class Bot implements GameController{
 				curr.setX(0);
 			}
 		}
-		if(s) input.set(0, 0, count);
-		if(a) input.set(0, 4, count);
+		if(s) input.set(0, 0, 0);
+		if(a) input.set(0, 4, 0);
 		
 		//DOWN
 		count = 0;
@@ -100,8 +100,8 @@ public class Bot implements GameController{
 			}
 		}
 		
-		if(s) input.set(0, 1, count);
-		if(a) input.set(0, 5, count);
+		if(s) input.set(0, 1, 0);
+		if(a) input.set(0, 5, 0);
 		
 		//LEFT
 		count = 0;
@@ -126,8 +126,8 @@ public class Bot implements GameController{
 			}
 		}
 		
-		if(s) input.set(0, 2, count);
-		if(a) input.set(0, 6, count);
+		if(s) input.set(0, 2, 0);
+		if(a) input.set(0, 6, 0);
 		
 		//RIGHT
 		count = 0;
@@ -152,8 +152,8 @@ public class Bot implements GameController{
 			}
 		}
 		
-		if(s) input.set(0, 3, count);
-		if(a) input.set(0, 7, count);
+		if(s) input.set(0, 3, 0);
+		if(a) input.set(0, 7, 0);
 		
 		return input;
 	}
