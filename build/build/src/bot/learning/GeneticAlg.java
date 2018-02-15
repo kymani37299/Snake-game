@@ -3,14 +3,23 @@ package bot.learning;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GeneticAlg {
+import bot.Bot;
+import game.model.GameMode;
+import javafx.application.Platform;
+import neuralNetwork.NeuralNetwork;
+import view.MainFrame;
+import view.TrainingWindow;
+
+public class GeneticAlg implements Runnable{
 	
 	private static final Random rand = new Random();
 	private final int nnLayers = 3;//TODO: layer size variation
 	private int generation;
+	private int goalGeneration;
 	private int mutationRate;
 	private int populationSize;
 	private DNA population[];
+	private TrainingWindow trainingWindow;
 	
 	public GeneticAlg(int populationSize,int mutationRate){
 		this.generation = 0;
@@ -82,6 +91,16 @@ public class GeneticAlg {
 		return populationSize;
 	}
 
+	public void setGoalGeneration(int goalGeneration) {
+		if(this.goalGeneration >= this.generation){
+			this.goalGeneration = goalGeneration;
+		}
+	}
+	
+	public void setTrainingWindow(TrainingWindow trainingWindow) {
+		this.trainingWindow = trainingWindow;
+	}
+
 	public DNA getBest(){
 		DNA best = this.population[0];
 		int bestFitness = this.population[0].calculateFitness();
@@ -93,6 +112,18 @@ public class GeneticAlg {
 			}
 		}
 		return best;
+	}
+
+	@Override
+	public void run() {
+		while(this.generation < this.goalGeneration){
+			this.nextGeneration();
+			Bot bot = new Bot(new NeuralNetwork(this.getBest()));
+			Platform.runLater(()-> {
+				this.trainingWindow.updateGenerations();
+				MainFrame.getInstance().setBot(bot);
+				MainFrame.getInstance().playGame(GameMode.Bot);});
+		}
 	}
 	
 }

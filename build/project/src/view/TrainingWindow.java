@@ -34,6 +34,8 @@ public class TrainingWindow extends Stage{
 		
 		layout.getChildren().addAll(lGeneration,lPopulationSize,lMutationRate,bottom,btnAccept);
 		layout.setPadding(new Insets(15));
+		this.setX(MainFrame.getInstance().getX() - this.getWidth());
+		this.setY(MainFrame.getInstance().getY() - this.getHeight());
 		this.setScene(new Scene(layout));
 		this.setTitle("Training settings");
 	}
@@ -47,6 +49,6 @@ public class TrainingWindow extends Stage{
 	}
 
 	public void updateGenerations(){
-		this.lGeneration.setText("Generation: " + this.ga.getGeneration());
+		this.lGeneration.setText("Generation: " + ga.getGeneration());
 	}
 }
