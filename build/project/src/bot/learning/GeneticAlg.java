@@ -1,6 +1,5 @@
 package bot.learning;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import bot.Bot;
@@ -32,30 +31,21 @@ public class GeneticAlg implements Runnable{
 		}
 	}
 	
-	private DNA pickRandom(){
-		/*double r = rand.nextDouble();
+	private DNA pickRandom(double probability[],int sum){
+		double r = rand.nextDouble();
 		int index = 0;
 		while(r>=0){
 			r -= probability[index];
 			index++;
 		}
 		index--;
-		return this.population[index];*/
-		ArrayList<DNA> genePool = new ArrayList<>(); //Not efficient ,something above dont work TODO: fix it
-		for(DNA d : this.population){
-			int tmp = d.calculateFitness();
-			for(int i=0;i<tmp;i++){
-				genePool.add(d);
-			}
-		}
-		return genePool.get(rand.nextInt(genePool.size()));
+		return this.population[index];
 	}
 	
 	public void nextGeneration(){
-		this.generation++;
 		
 		//Calculating probability for every DNA
-		/*int fitness[] = new int[this.populationSize];
+		int fitness[] = new int[this.populationSize];
 		int sum = 0;
 		for(int i=0;i<this.populationSize;i++){
 			fitness[i] = this.population[i].calculateFitness();
@@ -63,20 +53,21 @@ public class GeneticAlg implements Runnable{
 		}
 		double probability[] = new double[this.populationSize];
 		for(int i=0;i<this.populationSize;i++){
-			probability[i] = fitness[i]/sum;
-		}*/
+			probability[i] = (double)fitness[i]/sum;
+		}
 		
 		//Reproduction
 		DNA newGeneration[] = new DNA[this.populationSize];
 		for(int i=0;i<this.populationSize;i++){
-			DNA parent1 = this.pickRandom();
-			DNA parent2 = this.pickRandom();
+			DNA parent1 = this.pickRandom(probability,sum);
+			DNA parent2 = this.pickRandom(probability,sum);
 			DNA child = parent1.combine(parent2);
 			child.mutate(this.mutationRate);
 			newGeneration[i] = child;
 		}
 		
 		this.population = newGeneration;
+		this.generation++;
 	}
 
 	public int getGeneration() {
