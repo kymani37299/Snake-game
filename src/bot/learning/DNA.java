@@ -109,7 +109,7 @@ public class DNA {
 	}
 	
 	public int calculateFitness(){
-		this.game = new Game(MainFrame.mapSize , GameMode.Simulation);
+		this.game = new Game(MainFrame.getInstance().getMapSize() , GameMode.Simulation);
 		this.game.setController(new Bot(new NeuralNetwork(this),this.game));
 		this.game.simulateGame();
 		this.fitness = this.game.getApples().size();

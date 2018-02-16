@@ -28,7 +28,7 @@ public class GameView extends GridPane implements Observer{
 				if(game.getApple().getPosition().equals(pos)){
 					grid[i][j].setFill(Color.RED);
 				}else{
-					grid[i][j].setFill(Color.BLACK);
+					grid[i][j].setFill(Color.WHITE);
 				}
 				this.add(grid[i][j], i, j);
 			}
@@ -40,13 +40,13 @@ public class GameView extends GridPane implements Observer{
 		if(arg instanceof Apple){
 			Apple apple = (Apple)arg;
 			Position head = game.getSnake().getPosition();
-			grid[head.getX()][head.getY()].setFill(Color.GREEN);
+			grid[head.getX()][head.getY()].setFill(Color.BLUE);
 			grid[apple.getPosition().getX()][apple.getPosition().getY()].setFill(Color.RED);
 		}else{
 			Position pos = ((Piece)arg).getPosition();
 			Position head = game.getSnake().getPosition();
-			grid[head.getX()][head.getY()].setFill(Color.GREEN);
-			grid[pos.getX()][pos.getY()].setFill(Color.BLACK);
+			grid[head.getX()][head.getY()].setFill(Color.BLUE);
+			grid[pos.getX()][pos.getY()].setFill(Color.WHITE);
 		}
 	}
 	

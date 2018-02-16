@@ -12,7 +12,7 @@ import view.TrainingWindow;
 public class GeneticAlg implements Runnable{
 	
 	private static final Random rand = new Random();
-	private final int nnLayers = 5;//TODO: layer size variation
+	private final int nnLayers = 10;//TODO: layer size variation
 	private int generation;
 	private int goalGeneration;
 	private int mutationRate;

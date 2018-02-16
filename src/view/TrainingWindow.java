@@ -2,6 +2,7 @@ package view;
 
 import bot.learning.GeneticAlg;
 import controller.TrainingWindowController;
+import game.model.Position;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,12 +18,16 @@ public class TrainingWindow extends Stage{
 	private TextField tfSkipNumber;
 	private GeneticAlg ga;
 	
+	private TextField tfMapHeight;
+	private TextField tfMapWidth;
+	private TextField tfFPS;
+	
 	public TrainingWindow(GeneticAlg ga){
 		this.ga = ga;
 		VBox layout = new VBox(15);
 		this.lGeneration = new Label("Generation: " + ga.getGeneration());
 		Label lPopulationSize = new Label("Population size: " + ga.getPopulationSize());
-		Label lMutationRate = new Label("Mutation rate: " + ga.getMutationRate());
+		Label lMutationRate = new Label("Mutation rate: " + ga.getMutationRate()+"%");
 		
 		HBox bottom = new HBox(15);
 		this.tfSkipNumber = new TextField();
@@ -32,7 +37,23 @@ public class TrainingWindow extends Stage{
 		Button btnAccept = new Button("Accept");
 		btnAccept.setOnAction(new TrainingWindowController(this));
 		
-		layout.getChildren().addAll(lGeneration,lPopulationSize,lMutationRate,bottom,btnAccept);
+		layout.getChildren().addAll(lGeneration,lPopulationSize,lMutationRate,bottom);
+		
+		HBox lMapsize = new HBox(15);
+		Position mapSize = MainFrame.getInstance().getMapSize();
+		this.tfMapHeight = new TextField(""+mapSize.getX());
+		this.tfMapHeight.setMaxWidth(50);
+		this.tfMapWidth = new TextField(""+mapSize.getY());
+		this.tfMapWidth.setMaxWidth(50);
+		
+		lMapsize.getChildren().addAll(new Label("Map size: "),tfMapHeight , new Label("x"),tfMapWidth);
+		
+		HBox lFPS = new HBox(15);
+		this.tfFPS = new TextField(""+MainFrame.getInstance().getFPS());
+		lFPS.getChildren().addAll(new Label("FPS: "),tfFPS);
+		
+		layout.getChildren().addAll(lMapsize,lFPS,btnAccept);
+		
 		layout.setPadding(new Insets(15));
 		this.setX(MainFrame.getInstance().getX() - this.getWidth());
 		this.setY(MainFrame.getInstance().getY() - this.getHeight());
@@ -44,6 +65,18 @@ public class TrainingWindow extends Stage{
 		return tfSkipNumber;
 	}
 	
+	public TextField getTfMapHeight() {
+		return tfMapHeight;
+	}
+
+	public TextField getTfMapWidth() {
+		return tfMapWidth;
+	}
+
+	public TextField getTfFPS() {
+		return tfFPS;
+	}
+
 	public GeneticAlg getGa() {
 		return ga;
 	}
