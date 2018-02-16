@@ -3,9 +3,10 @@ package game.model;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Snake {
-
+	private Random rand = new Random();
 	private Deque<Piece> snake;
 	private Direction direction;
 	private Direction definiteDirection;
@@ -16,7 +17,11 @@ public class Snake {
 	public Snake(Position position,Game game){
 		this.snake = new LinkedList<>();
 		this.snake.add(new Piece(position));
-		this.direction = Direction.RIGHT;
+		int r = rand.nextInt(4);
+		if(r==0) this.direction = Direction.UP;
+		else if(r==1) this.direction = Direction.DOWN;
+		else if(r==2) this.direction = Direction.LEFT;
+		else this.direction = Direction.RIGHT;
 		this.snake.add(new Piece(position));
 		this.alive = true;
 		this.game = game;

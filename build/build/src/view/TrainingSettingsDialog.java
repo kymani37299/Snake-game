@@ -15,11 +15,11 @@ public class TrainingSettingsDialog extends GridPane{
 	public TrainingSettingsDialog(){
 		this.setVgap(15);
 		this.setHgap(15);
-		this.tfMutationRate = new TextField();
+		this.tfMutationRate = new TextField("1");
 		this.tfMutationRate.setMaxWidth(50);
-		this.tfPopulationSize = new TextField();
+		this.tfPopulationSize = new TextField("50");
 		this.tfPopulationSize.setMaxWidth(50);
-		this.tfGenerations = new TextField();
+		this.tfGenerations = new TextField("20");
 		this.tfGenerations.setMaxWidth(50);
 		this.add(new Label("Population size: "), 0, 0);
 		this.add(tfPopulationSize,1,0);

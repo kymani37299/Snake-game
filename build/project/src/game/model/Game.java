@@ -5,10 +5,11 @@ import java.util.Observable;
 import java.util.Random;
 
 import game.controller.GameController;
+import view.MainFrame;
 
 public class Game extends Observable implements Runnable{
 	private final int maxFailCount = 100;
-	private final int FPS = 20;
+	
 	private Snake snake;
 	private Apple apple;
 	private Position dimension;
@@ -22,7 +23,7 @@ public class Game extends Observable implements Runnable{
 		this.mode = mode;
 		this.dimension = dimension;
 		this.gameActive = true;
-		this.snake = new Snake(new Position(10,10),this);
+		this.snake = new Snake(new Position(rand.nextInt(MainFrame.getInstance().getMapSize().getX()),rand.nextInt(MainFrame.getInstance().getMapSize().getY())),this);
 		this.apple = this.getRandomApple();
 		this.apples = new ArrayList<>();
 		this.apples.add(this.apple);
@@ -61,7 +62,7 @@ public class Game extends Observable implements Runnable{
 	private void pauseGame(){
 		if(mode != GameMode.Simulation){
 			try {
-				Thread.sleep(1000/FPS);
+				Thread.sleep(1000/MainFrame.getInstance().getFPS());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

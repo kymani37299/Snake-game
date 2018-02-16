@@ -15,7 +15,8 @@ import javafx.stage.Stage;
 public class MainFrame extends Stage{
 	
 	private static MainFrame instance;
-	public static Position mapSize = new Position(20, 20);
+	private Position mapSize = new Position(20, 20);
+	private int FPS = 20;
 	private BorderPane layout;
 	private GameController bot;
 	
@@ -54,6 +55,22 @@ public class MainFrame extends Stage{
 		this.bot = bot;
 	}
 	
+	public Position getMapSize() {
+		return mapSize;
+	}
+
+	public void setMapSize(Position mapSize) {
+		this.mapSize = mapSize;
+	}
+	
+	public int getFPS() {
+		return FPS;
+	}
+
+	public void setFPS(int fPS) {
+		FPS = fPS;
+	}
+
 	public static MainFrame getInstance(){
 		if(instance==null){
 			instance = new MainFrame();
