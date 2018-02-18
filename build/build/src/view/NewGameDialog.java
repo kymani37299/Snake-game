@@ -1,6 +1,6 @@
 package view;
 
-import controller.NewGameController;
+import controller.NewGameAction;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -19,7 +19,7 @@ public class NewGameDialog extends VBox{
 		rbBot = new RadioButton("Watch bot play game (soon)");
 		rbTrain = new RadioButton("Bot training");
 		Button btnOk = new Button("Ok");
-		btnOk.setOnAction(new NewGameController(this));
+		btnOk.setOnAction(new NewGameAction(this));
 		tgChoose.getToggles().addAll(rbHuman,rbBot,rbTrain);
 		tgChoose.selectToggle(rbHuman);
 		this.getChildren().addAll(rbHuman,rbBot,rbTrain,btnOk);

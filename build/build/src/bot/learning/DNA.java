@@ -17,7 +17,9 @@ public class DNA {
 	private Matrix inputWeights;
 	private Matrix outputWeights;
 	private Matrix bias[];
-	private int fitness;
+	
+	private final static int simulationNumber = 5;
+	private double fitness;
 	private Game game;
 	
 	public DNA(int numLayers){
@@ -108,11 +110,15 @@ public class DNA {
 		
 	}
 	
-	public int calculateFitness(){
-		this.game = new Game(MainFrame.getInstance().getMapSize() , GameMode.Simulation);
-		this.game.setController(new Bot(new NeuralNetwork(this),this.game));
-		this.game.simulateGame();
-		this.fitness = this.game.getApples().size();
+	public double calculateFitness(){
+		int sum = 0;
+		for(int i=0;i<simulationNumber;i++){
+			this.game = new Game(MainFrame.getInstance().getMapSize() , GameMode.Simulation);
+			this.game.setController(new Bot(new NeuralNetwork(this),this.game));
+			this.game.simulateGame();
+			sum += Math.pow(this.game.getApples().size(),4);
+		}
+		this.fitness = (double)sum/simulationNumber;
 		return this.fitness;
 	}
 	

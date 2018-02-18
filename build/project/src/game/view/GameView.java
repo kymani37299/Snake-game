@@ -45,8 +45,10 @@ public class GameView extends GridPane implements Observer{
 		}else{
 			Position pos = ((Piece)arg).getPosition();
 			Position head = game.getSnake().getPosition();
-			grid[head.getX()][head.getY()].setFill(Color.BLUE);
-			grid[pos.getX()][pos.getY()].setFill(Color.WHITE);
+			if(!head.equals(pos)){
+				grid[head.getX()][head.getY()].setFill(Color.BLUE);
+				grid[pos.getX()][pos.getY()].setFill(Color.WHITE);
+			}
 		}
 	}
 	

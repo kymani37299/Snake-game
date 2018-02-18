@@ -18,6 +18,10 @@ public class GeneticAlg implements Runnable{
 	private int mutationRate;
 	private int populationSize;
 	private DNA population[];
+	private double fitness[];
+	private DNA bestDNA;
+	private double bestFitness;
+	private double avgFitness;
 	private TrainingWindow trainingWindow;
 	
 	public GeneticAlg(int populationSize,int mutationRate){
@@ -45,7 +49,7 @@ public class GeneticAlg implements Runnable{
 	public void nextGeneration(){
 		
 		//Calculating probability for every DNA
-		int fitness[] = new int[this.populationSize];
+		this.fitness = new double[this.populationSize];
 		int sum = 0;
 		for(int i=0;i<this.populationSize;i++){
 			fitness[i] = this.population[i].calculateFitness();
@@ -68,6 +72,18 @@ public class GeneticAlg implements Runnable{
 		
 		this.population = newGeneration;
 		this.generation++;
+	}
+	
+	public double getBestFitness() {
+		return bestFitness;
+	}
+
+	public double getAvgFitness() {
+		return avgFitness;
+	}
+
+	public DNA getBestDNA() {
+		return bestDNA;
 	}
 
 	public int getGeneration() {
@@ -92,26 +108,29 @@ public class GeneticAlg implements Runnable{
 		this.trainingWindow = trainingWindow;
 	}
 
-	public DNA getBest(){
-		DNA best = this.population[0];
-		int bestFitness = this.population[0].calculateFitness();
+	public void calculateResults(){
+		this.bestDNA = this.population[0];
+		this.bestFitness = this.fitness[0];
+		double sumFitness = this.fitness[0];
 		for(int i=1;i<this.populationSize;i++){
-			int tmp = this.population[i].calculateFitness();
+			double tmp = this.fitness[i];
 			if(tmp > bestFitness){
-				best = this.population[i];
-				bestFitness = tmp;
+				this.bestDNA = this.population[i];
+				this.bestFitness = tmp;
 			}
+			sumFitness += tmp;
 		}
-		return best;
+		this.avgFitness = sumFitness/this.populationSize;
 	}
 
 	@Override
 	public void run() {
 		while(this.generation < this.goalGeneration){
 			this.nextGeneration();
-			Bot bot = new Bot(new NeuralNetwork(this.getBest()));
+			this.calculateResults();
+			Bot bot = new Bot(new NeuralNetwork(this.bestDNA));
 			Platform.runLater(()-> {
-				this.trainingWindow.updateGenerations();
+				this.trainingWindow.updateResults();
 				MainFrame.getInstance().setBot(bot);
 				MainFrame.getInstance().playGame(GameMode.Bot);});
 		}
