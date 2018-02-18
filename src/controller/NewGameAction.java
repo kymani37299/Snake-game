@@ -6,11 +6,11 @@ import javafx.event.EventHandler;
 import view.MainFrame;
 import view.NewGameDialog;
 
-public class NewGameController implements EventHandler<ActionEvent>{
+public class NewGameAction implements EventHandler<ActionEvent>{
 
 	private NewGameDialog dialog;
 	
-	public NewGameController(NewGameDialog dialog){
+	public NewGameAction(NewGameDialog dialog){
 		this.dialog = dialog;
 	}
 	

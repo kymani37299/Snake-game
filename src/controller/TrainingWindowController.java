@@ -40,9 +40,9 @@ public class TrainingWindowController implements EventHandler<ActionEvent>{
 		}catch(NumberFormatException e){
 		}
 				
-		if(mapHeight>0 && mapWidth > 0){
+		if(mapHeight>4 && mapWidth>4){
 			MainFrame.getInstance().setMapSize(new Position(mapHeight,mapWidth));
-			MainFrame.getInstance().setBot(new Bot(new NeuralNetwork(this.trainingWindow.getGa().getBest())));
+			MainFrame.getInstance().setBot(new Bot(new NeuralNetwork(this.trainingWindow.getGa().getBestDNA())));
 			MainFrame.getInstance().playGame(GameMode.Bot);
 		}
 		
