@@ -33,6 +33,10 @@ public class Game extends Observable implements Runnable{
 		if(this.snake.getPosition().equals(this.apple.getPosition())){
 			this.snake.grow();
 			this.apple = this.getRandomApple();
+			if(this.apple == null){
+				this.gameActive = false;
+				return;
+			}
 			this.apples.add(this.apple);
 			this.notifyObservers(this.apple);
 		}else{
@@ -56,6 +60,7 @@ public class Game extends Observable implements Runnable{
 		for(Position p : this.snake.getSnake()){
 			space.remove(p);
 		}
+		if(space.size()==0) return null;
 		return new Apple(space.get(rand.nextInt(space.size())));
 	}
 	
@@ -95,6 +100,17 @@ public class Game extends Observable implements Runnable{
 		this.gameActive = false;
 	}
 	
+	@Override
+	public void run() {
+		while(gameActive){
+			if(this.controller!=null){
+				this.snake.setDirection(this.controller.getAction());
+			}
+			this.updateGame();
+			this.pauseGame();
+		}
+	}
+	
 	public Snake getSnake() {
 		return this.snake;
 	}
@@ -118,18 +134,5 @@ public class Game extends Observable implements Runnable{
 	public GameMode getMode(){
 		return this.mode;
 	}
-	
-	@Override
-	public void run() {
-		while(gameActive){
-			if(this.controller!=null){
-				this.snake.setDirection(this.controller.getAction());
-			}
-			this.updateGame();
-			this.pauseGame();
-		}
-	}
-	
-	
 	
 }

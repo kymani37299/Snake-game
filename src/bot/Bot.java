@@ -1,5 +1,6 @@
 package bot;
 
+import bot.input.InputGenerator;
 import game.GlobalSettings;
 import game.controller.GameController;
 import game.model.Direction;

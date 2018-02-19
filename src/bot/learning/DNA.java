@@ -10,15 +10,12 @@ import neuralNetwork.Matrix;
 import neuralNetwork.NeuralNetwork;
 
 public class DNA {
-	//TODO: Different numLayers population
-	
+	private final static int simulationNumber = 5;
 	private final static Random rand = new Random();
 	private int numLayers;
 	private Matrix inputWeights;
 	private Matrix outputWeights;
 	private Matrix bias[];
-	
-	private final static int simulationNumber = 5;
 	private double fitness;
 	private Game game;
 	
@@ -116,9 +113,9 @@ public class DNA {
 			this.game = new Game(GameMode.Simulation);
 			this.game.setController(new Bot(new NeuralNetwork(this),this.game));
 			this.game.simulateGame();
-			sum += Math.pow(this.game.getApples().size(),4);
+			sum += this.game.getApples().size();
 		}
-		this.fitness = (double)sum/simulationNumber;
+		this.fitness = (double)Math.pow(sum,3)/simulationNumber;
 		return this.fitness;
 	}
 	

@@ -1,11 +1,11 @@
-package bot;
+package bot.input;
 
 import java.util.ArrayList;
 
+import game.GlobalSettings;
 import game.model.Game;
 import game.model.Position;
 import neuralNetwork.Matrix;
-import view.MainFrame;
 
 public class VisionInputGenerator extends InputGenerator{
 
@@ -20,8 +20,8 @@ public class VisionInputGenerator extends InputGenerator{
 		ArrayList<Position> snake = game.getSnake().getSnake();
 		Position apple = game.getApple().getPosition();
 		
-		for(int i=0;i<MainFrame.getInstance().getMapSize().getX();i++){
-			for(int j=0;j<MainFrame.getInstance().getMapSize().getY();j++){
+		for(int i=0;i<GlobalSettings.getInstance().getMapSize().getX();i++){
+			for(int j=0;j<GlobalSettings.getInstance().getMapSize().getY();j++){
 				Position pos = new Position(i, j);
 				if(apple.equals(pos)){
 					input.set(0, index, 1);

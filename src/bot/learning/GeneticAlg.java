@@ -13,7 +13,6 @@ import view.TrainingWindow;
 public class GeneticAlg implements Runnable{
 	
 	private static final Random rand = new Random();
-	private final int nnLayers = 10;//TODO: layer size variation
 	private int generation;
 	private int goalGeneration;
 	private int mutationRate;
@@ -24,14 +23,16 @@ public class GeneticAlg implements Runnable{
 	private double bestFitness;
 	private double avgFitness;
 	private TrainingWindow trainingWindow;
+	private int neuronNumber;
 	
-	public GeneticAlg(int populationSize,int mutationRate){
+	public GeneticAlg(int populationSize,int mutationRate,int neuronNumber){
 		this.generation = 0;
 		this.mutationRate = mutationRate;
 		this.populationSize = populationSize;
 		this.population = new DNA[populationSize];
+		this.neuronNumber = neuronNumber;
 		for(int i=0;i<populationSize;i++){
-			this.population[i] = new DNA(this.nnLayers);
+			this.population[i] = new DNA(neuronNumber);
 			this.population[i].randomize();
 		}
 	}
@@ -75,6 +76,36 @@ public class GeneticAlg implements Runnable{
 		this.generation++;
 	}
 	
+	public void calculateResults(){
+		this.bestDNA = this.population[0];
+		this.bestFitness = this.fitness[0];
+		double sumFitness = this.fitness[0];
+		for(int i=1;i<this.populationSize;i++){
+			double tmp = this.fitness[i];
+			if(tmp > bestFitness){
+				this.bestDNA = this.population[i];
+				this.bestFitness = tmp;
+			}
+			sumFitness += tmp;
+		}
+		this.avgFitness = sumFitness/this.populationSize;
+	}
+
+	@Override
+	public void run() {
+		while(this.generation < this.goalGeneration){
+			this.nextGeneration();
+			this.calculateResults();
+			Platform.runLater(()-> {
+				this.trainingWindow.updateResults();
+				Game newGame = new Game(GameMode.Simulation);
+				Bot bot = new Bot(new NeuralNetwork(this.bestDNA),newGame);
+				newGame.setController(bot);
+				MainFrame.getInstance().playGame(newGame);
+				});
+		}
+	}
+	
 	public double getBestFitness() {
 		return bestFitness;
 	}
@@ -109,34 +140,8 @@ public class GeneticAlg implements Runnable{
 		this.trainingWindow = trainingWindow;
 	}
 
-	public void calculateResults(){
-		this.bestDNA = this.population[0];
-		this.bestFitness = this.fitness[0];
-		double sumFitness = this.fitness[0];
-		for(int i=1;i<this.populationSize;i++){
-			double tmp = this.fitness[i];
-			if(tmp > bestFitness){
-				this.bestDNA = this.population[i];
-				this.bestFitness = tmp;
-			}
-			sumFitness += tmp;
-		}
-		this.avgFitness = sumFitness/this.populationSize;
+	public int getNeuronNumber() {
+		return neuronNumber;
 	}
 
-	@Override
-	public void run() {
-		while(this.generation < this.goalGeneration){
-			this.nextGeneration();
-			this.calculateResults();
-			Platform.runLater(()-> {
-				this.trainingWindow.updateResults();
-				Game newGame = new Game(GameMode.Simulation);
-				Bot bot = new Bot(new NeuralNetwork(this.bestDNA),newGame);
-				newGame.setController(bot);
-				MainFrame.getInstance().playGame(newGame);
-				});
-		}
-	}
-	
 }

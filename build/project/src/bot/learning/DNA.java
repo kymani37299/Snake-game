@@ -3,28 +3,25 @@ package bot.learning;
 import java.util.Random;
 
 import bot.Bot;
+import game.GlobalSettings;
 import game.model.Game;
 import game.model.GameMode;
 import neuralNetwork.Matrix;
 import neuralNetwork.NeuralNetwork;
-import view.MainFrame;
 
 public class DNA {
-	//TODO: Different numLayers population
-	
+	private final static int simulationNumber = 5;
 	private final static Random rand = new Random();
 	private int numLayers;
 	private Matrix inputWeights;
 	private Matrix outputWeights;
 	private Matrix bias[];
-	
-	private final static int simulationNumber = 5;
 	private double fitness;
 	private Game game;
 	
 	public DNA(int numLayers){
 		this.numLayers = numLayers;
-		this.inputWeights = new Matrix(MainFrame.getInstance().getInputGenerator().getNumInputs(),numLayers);
+		this.inputWeights = new Matrix(GlobalSettings.getInstance().getInputGenerator().getNumInputs(),numLayers);
 		this.outputWeights = new Matrix(numLayers,4);
 		this.bias = new Matrix[2];
 		this.bias[0] = new Matrix(1,numLayers);
@@ -113,12 +110,12 @@ public class DNA {
 	public double calculateFitness(){
 		int sum = 0;
 		for(int i=0;i<simulationNumber;i++){
-			this.game = new Game(MainFrame.getInstance().getMapSize() , GameMode.Simulation);
+			this.game = new Game(GameMode.Simulation);
 			this.game.setController(new Bot(new NeuralNetwork(this),this.game));
 			this.game.simulateGame();
-			sum += Math.pow(this.game.getApples().size(),4);
+			sum += this.game.getApples().size();
 		}
-		this.fitness = (double)sum/simulationNumber;
+		this.fitness = (double)Math.pow(sum,3)/simulationNumber;
 		return this.fitness;
 	}
 	

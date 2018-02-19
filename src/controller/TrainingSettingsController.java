@@ -19,14 +19,16 @@ public class TrainingSettingsController implements EventHandler<ActionEvent>{
 		int mutationRate = -1;
 		int populationSize = -1;
 		int numGenerations = -1;
+		int neuronNumber = -1;
 		try{
 			mutationRate = Integer.parseInt(dialog.getTfMutationRate().getText());
 			populationSize = Integer.parseInt(dialog.getTfPopulationSize().getText());
 			numGenerations = Integer.parseInt(dialog.getTfGenerations().getText());
+			neuronNumber = Integer.parseInt(dialog.getTfHiddenNeurons().getText());
 		}catch(NumberFormatException e){
 		}
-		if(mutationRate >= 0 && mutationRate <= 100 && populationSize>0 && numGenerations >= 0){
-			GeneticAlg ga = new GeneticAlg(populationSize, mutationRate);
+		if(mutationRate >= 0 && mutationRate <= 100 && populationSize>0 && numGenerations >= 0 && neuronNumber > 0){
+			GeneticAlg ga = new GeneticAlg(populationSize, mutationRate , neuronNumber);
 			TrainingWindow trainingWindow = new TrainingWindow(ga);
 			ga.setTrainingWindow(trainingWindow);
 			ga.setGoalGeneration(numGenerations + ga.getGeneration());

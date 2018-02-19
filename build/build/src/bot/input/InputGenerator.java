@@ -1,4 +1,4 @@
-package bot;
+package bot.input;
 
 import game.model.Game;
 import neuralNetwork.Matrix;
@@ -15,10 +15,6 @@ public abstract class InputGenerator {
 	
 	public int getNumInputs() {
 		return numInputs;
-	}
-	public void setNumInputs(int numInputs) {
-		if(this.numInputs!=0)
-			this.numInputs = numInputs;
 	}
 	
 }

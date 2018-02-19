@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
 
+import game.GlobalSettings;
 import game.controller.GameController;
-import view.MainFrame;
 
 public class Game extends Observable implements Runnable{
 	private final int maxFailCount = 100;
@@ -19,11 +19,11 @@ public class Game extends Observable implements Runnable{
 	private GameMode mode;
 	private ArrayList<Apple> apples;
 	
-	public Game(Position dimension,GameMode mode){
+	public Game(GameMode mode){
 		this.mode = mode;
-		this.dimension = dimension;
+		this.dimension = GlobalSettings.getInstance().getMapSize();
 		this.gameActive = true;
-		this.snake = new Snake(new Position(rand.nextInt(MainFrame.getInstance().getMapSize().getX()),rand.nextInt(MainFrame.getInstance().getMapSize().getY())),this);
+		this.snake = new Snake(new Position(rand.nextInt(this.dimension.getX()),rand.nextInt(this.dimension.getY())),this);
 		this.apple = this.getRandomApple();
 		this.apples = new ArrayList<>();
 		this.apples.add(this.apple);
@@ -33,6 +33,10 @@ public class Game extends Observable implements Runnable{
 		if(this.snake.getPosition().equals(this.apple.getPosition())){
 			this.snake.grow();
 			this.apple = this.getRandomApple();
+			if(this.apple == null){
+				this.gameActive = false;
+				return;
+			}
 			this.apples.add(this.apple);
 			this.notifyObservers(this.apple);
 		}else{
@@ -56,16 +60,15 @@ public class Game extends Observable implements Runnable{
 		for(Position p : this.snake.getSnake()){
 			space.remove(p);
 		}
+		if(space.size()==0) return null;
 		return new Apple(space.get(rand.nextInt(space.size())));
 	}
 	
 	private void pauseGame(){
-		if(mode != GameMode.Simulation){
-			try {
-				Thread.sleep(1000/MainFrame.getInstance().getFPS());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		try {
+			Thread.sleep(1000/GlobalSettings.getInstance().getFPS());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -97,6 +100,17 @@ public class Game extends Observable implements Runnable{
 		this.gameActive = false;
 	}
 	
+	@Override
+	public void run() {
+		while(gameActive){
+			if(this.controller!=null){
+				this.snake.setDirection(this.controller.getAction());
+			}
+			this.updateGame();
+			this.pauseGame();
+		}
+	}
+	
 	public Snake getSnake() {
 		return this.snake;
 	}
@@ -116,18 +130,9 @@ public class Game extends Observable implements Runnable{
 	public ArrayList<Apple> getApples() {
 		return apples;
 	}
-
-	@Override
-	public void run() {
-		while(gameActive){
-			if(this.controller!=null){
-				this.snake.setDirection(this.controller.getAction());
-			}
-			this.updateGame();
-			this.pauseGame();
-		}
+	
+	public GameMode getMode(){
+		return this.mode;
 	}
-	
-	
 	
 }

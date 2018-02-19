@@ -39,8 +39,9 @@ public class TrainingWindow extends Stage{
 		this.lGeneration = new Label("Generation: " + ga.getGeneration());
 		Label lPopulationSize = new Label("Population size: " + ga.getPopulationSize());
 		Label lMutationRate = new Label("Mutation rate: " + ga.getMutationRate()+"%");
+		Label lNeuronNumber = new Label("Hidden neurons size: " + ga.getNeuronNumber());
 		this.lBestFitness = new Label("Best fitness: " + formatter.format(Math.pow(ga.getBestFitness(),0.25)));
-		this.lAvgFitness = new Label("Average fitness:" + formatter.format(Math.pow(ga.getAvgFitness(), 0.25)));
+		this.lAvgFitness = new Label("Average fitness: " + formatter.format(Math.pow(ga.getAvgFitness(), 0.25)));
 		
 		HBox bottom = new HBox(15);
 		this.tfSkipNumber = new TextField();
@@ -50,7 +51,7 @@ public class TrainingWindow extends Stage{
 		Button btnAccept = new Button("Accept");
 		btnAccept.setOnAction(new TrainingWindowController(this));
 		
-		layout.getChildren().addAll(lGeneration,lPopulationSize,lMutationRate,lBestFitness,lAvgFitness,bottom);
+		layout.getChildren().addAll(lGeneration,lPopulationSize,lMutationRate,lNeuronNumber,lBestFitness,lAvgFitness,bottom);
 		
 		HBox lMapsize = new HBox(15);
 		Position mapSize = GlobalSettings.getInstance().getMapSize();
@@ -74,6 +75,12 @@ public class TrainingWindow extends Stage{
 		this.setTitle("Training settings");
 	}
 
+	public void updateResults(){
+		this.lGeneration.setText("Generation: " + ga.getGeneration());
+		this.lBestFitness.setText("Best fitness: " + formatter.format(Math.pow(ga.getBestFitness(),0.25)));
+		this.lAvgFitness.setText("Average fitness:" + formatter.format(Math.pow(ga.getAvgFitness(),0.25)));
+	}
+	
 	public TextField getTfSkipNumber() {
 		return tfSkipNumber;
 	}
@@ -94,12 +101,4 @@ public class TrainingWindow extends Stage{
 		return ga;
 	}
 
-	public void updateGenerations(){
-	}
-	
-	public void updateResults(){
-		this.lGeneration.setText("Generation: " + ga.getGeneration());
-		this.lBestFitness.setText("Best fitness: " + formatter.format(Math.pow(ga.getBestFitness(),0.25)));
-		this.lAvgFitness.setText("Average fitness:" + formatter.format(Math.pow(ga.getAvgFitness(),0.25)));
-	}
 }
