@@ -1,6 +1,9 @@
 package view;
 
 import bot.Bot;
+import bot.FourWayDistanceInputGenerator;
+import bot.InputGenerator;
+import bot.VisionInputGenerator;
 import game.controller.GameController;
 import game.listeners.KeyListener;
 import game.model.Game;
@@ -19,11 +22,13 @@ public class MainFrame extends Stage{
 	private int FPS = 20;
 	private BorderPane layout;
 	private GameController bot;
+	private InputGenerator inputGenerator;
 	
 	private MainFrame(){
 		this.layout = new BorderPane();
 		this.layout.setCenter(new NewGameDialog());
 		this.layout.setPadding(new Insets(15));
+		this.inputGenerator = new FourWayDistanceInputGenerator();
 		this.setScene(new Scene(layout));
 		this.setTitle("Snake game");
 	}
@@ -69,6 +74,10 @@ public class MainFrame extends Stage{
 
 	public void setFPS(int fPS) {
 		FPS = fPS;
+	}
+
+	public InputGenerator getInputGenerator() {
+		return inputGenerator;
 	}
 
 	public static MainFrame getInstance(){

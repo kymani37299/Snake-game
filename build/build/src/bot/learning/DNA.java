@@ -24,11 +24,11 @@ public class DNA {
 	
 	public DNA(int numLayers){
 		this.numLayers = numLayers;
-		this.inputWeights = new Matrix(NeuralNetwork.numInputs,numLayers);
-		this.outputWeights = new Matrix(numLayers,NeuralNetwork.numOutputs);
+		this.inputWeights = new Matrix(MainFrame.getInstance().getInputGenerator().getNumInputs(),numLayers);
+		this.outputWeights = new Matrix(numLayers,4);
 		this.bias = new Matrix[2];
 		this.bias[0] = new Matrix(1,numLayers);
-		this.bias[1] = new Matrix(1,NeuralNetwork.numOutputs);
+		this.bias[1] = new Matrix(1,4);
 	}
 	
 	public void randomize(){
