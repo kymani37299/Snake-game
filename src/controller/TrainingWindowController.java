@@ -2,6 +2,8 @@ package controller;
 
 import bot.Bot;
 import bot.learning.GeneticAlg;
+import game.GlobalSettings;
+import game.model.Game;
 import game.model.GameMode;
 import game.model.Position;
 import javafx.event.ActionEvent;
@@ -41,13 +43,15 @@ public class TrainingWindowController implements EventHandler<ActionEvent>{
 		}
 				
 		if(mapHeight>4 && mapWidth>4){
-			MainFrame.getInstance().setMapSize(new Position(mapHeight,mapWidth));
-			MainFrame.getInstance().setBot(new Bot(new NeuralNetwork(this.trainingWindow.getGa().getBestDNA())));
-			MainFrame.getInstance().playGame(GameMode.Bot);
+			GlobalSettings.getInstance().setMapSize(new Position(mapHeight,mapWidth));
+			Game newGame = new Game(GameMode.Simulation);
+			Bot bot = new Bot(new NeuralNetwork(this.trainingWindow.getGa().getBestDNA()),newGame);
+			newGame.setController(bot);
+			MainFrame.getInstance().playGame(newGame);
 		}
 		
 		if(FPS>0){
-			MainFrame.getInstance().setFPS(FPS);
+			GlobalSettings.getInstance().setFPS(FPS);
 		}
 		
 		if(numGenerations > 0){

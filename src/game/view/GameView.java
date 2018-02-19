@@ -3,12 +3,12 @@ package game.view;
 import java.util.Observable;
 import java.util.Observer;
 
+import game.GlobalSettings;
 import game.model.Apple;
 import game.model.Game;
 import game.model.Piece;
 import game.model.Position;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class GameView extends GridPane implements Observer{
@@ -26,9 +26,9 @@ public class GameView extends GridPane implements Observer{
 				grid[i][j] = new Rectangle(squareSize, squareSize);
 				Position pos = new Position(i,j);
 				if(game.getApple().getPosition().equals(pos)){
-					grid[i][j].setFill(Color.RED);
+					grid[i][j].setFill(GlobalSettings.getInstance().getAppleColor());
 				}else{
-					grid[i][j].setFill(Color.WHITE);
+					grid[i][j].setFill(GlobalSettings.getInstance().getBackgroundColor());
 				}
 				this.add(grid[i][j], i, j);
 			}
@@ -40,14 +40,14 @@ public class GameView extends GridPane implements Observer{
 		if(arg instanceof Apple){
 			Apple apple = (Apple)arg;
 			Position head = game.getSnake().getPosition();
-			grid[head.getX()][head.getY()].setFill(Color.BLUE);
-			grid[apple.getPosition().getX()][apple.getPosition().getY()].setFill(Color.RED);
+			grid[head.getX()][head.getY()].setFill(GlobalSettings.getInstance().getSnakeColor());
+			grid[apple.getPosition().getX()][apple.getPosition().getY()].setFill(GlobalSettings.getInstance().getAppleColor());
 		}else{
 			Position pos = ((Piece)arg).getPosition();
 			Position head = game.getSnake().getPosition();
 			if(!head.equals(pos)){
-				grid[head.getX()][head.getY()].setFill(Color.BLUE);
-				grid[pos.getX()][pos.getY()].setFill(Color.WHITE);
+				grid[head.getX()][head.getY()].setFill(GlobalSettings.getInstance().getSnakeColor());
+				grid[pos.getX()][pos.getY()].setFill(GlobalSettings.getInstance().getBackgroundColor());
 			}
 		}
 	}

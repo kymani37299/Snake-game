@@ -3,6 +3,7 @@ package bot.learning;
 import java.util.Random;
 
 import bot.Bot;
+import game.model.Game;
 import game.model.GameMode;
 import javafx.application.Platform;
 import neuralNetwork.NeuralNetwork;
@@ -128,11 +129,13 @@ public class GeneticAlg implements Runnable{
 		while(this.generation < this.goalGeneration){
 			this.nextGeneration();
 			this.calculateResults();
-			Bot bot = new Bot(new NeuralNetwork(this.bestDNA));
 			Platform.runLater(()-> {
 				this.trainingWindow.updateResults();
-				MainFrame.getInstance().setBot(bot);
-				MainFrame.getInstance().playGame(GameMode.Bot);});
+				Game newGame = new Game(GameMode.Simulation);
+				Bot bot = new Bot(new NeuralNetwork(this.bestDNA),newGame);
+				newGame.setController(bot);
+				MainFrame.getInstance().playGame(newGame);
+				});
 		}
 	}
 	

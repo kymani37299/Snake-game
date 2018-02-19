@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
 
+import game.GlobalSettings;
 import game.controller.GameController;
-import view.MainFrame;
 
 public class Game extends Observable implements Runnable{
 	private final int maxFailCount = 100;
@@ -19,11 +19,11 @@ public class Game extends Observable implements Runnable{
 	private GameMode mode;
 	private ArrayList<Apple> apples;
 	
-	public Game(Position dimension,GameMode mode){
+	public Game(GameMode mode){
 		this.mode = mode;
-		this.dimension = dimension;
+		this.dimension = GlobalSettings.getInstance().getMapSize();
 		this.gameActive = true;
-		this.snake = new Snake(new Position(rand.nextInt(MainFrame.getInstance().getMapSize().getX()),rand.nextInt(MainFrame.getInstance().getMapSize().getY())),this);
+		this.snake = new Snake(new Position(rand.nextInt(this.dimension.getX()),rand.nextInt(this.dimension.getY())),this);
 		this.apple = this.getRandomApple();
 		this.apples = new ArrayList<>();
 		this.apples.add(this.apple);
@@ -60,12 +60,10 @@ public class Game extends Observable implements Runnable{
 	}
 	
 	private void pauseGame(){
-		if(mode != GameMode.Simulation){
-			try {
-				Thread.sleep(1000/MainFrame.getInstance().getFPS());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		try {
+			Thread.sleep(1000/GlobalSettings.getInstance().getFPS());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -116,7 +114,11 @@ public class Game extends Observable implements Runnable{
 	public ArrayList<Apple> getApples() {
 		return apples;
 	}
-
+	
+	public GameMode getMode(){
+		return this.mode;
+	}
+	
 	@Override
 	public void run() {
 		while(gameActive){

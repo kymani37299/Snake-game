@@ -1,5 +1,6 @@
 package controller;
 
+import game.model.Game;
 import game.model.GameMode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,15 +17,11 @@ public class NewGameAction implements EventHandler<ActionEvent>{
 	
 	@Override
 	public void handle(ActionEvent event) {
-		GameMode mode;
 		if(dialog.getRbHuman().isSelected()){
-			mode = GameMode.Play;
-		}else if(dialog.getRbBot().isSelected()){
-			mode = GameMode.Bot;
-		}else{
-			mode = GameMode.Train;
+			MainFrame.getInstance().playGame(new Game(GameMode.Play));
+		}else if(dialog.getRbTrain().isSelected()){
+			MainFrame.getInstance().openTrainSettings();
 		}
-		MainFrame.getInstance().playGame(mode);
 	}
 
 }

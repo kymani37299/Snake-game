@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 
 import bot.learning.GeneticAlg;
 import controller.TrainingWindowController;
+import game.GlobalSettings;
 import game.model.Position;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -52,7 +53,7 @@ public class TrainingWindow extends Stage{
 		layout.getChildren().addAll(lGeneration,lPopulationSize,lMutationRate,lBestFitness,lAvgFitness,bottom);
 		
 		HBox lMapsize = new HBox(15);
-		Position mapSize = MainFrame.getInstance().getMapSize();
+		Position mapSize = GlobalSettings.getInstance().getMapSize();
 		this.tfMapHeight = new TextField(""+mapSize.getX());
 		this.tfMapHeight.setMaxWidth(50);
 		this.tfMapWidth = new TextField(""+mapSize.getY());
@@ -61,7 +62,7 @@ public class TrainingWindow extends Stage{
 		lMapsize.getChildren().addAll(new Label("Map size: "),tfMapHeight , new Label("x"),tfMapWidth);
 		
 		HBox lFPS = new HBox(15);
-		this.tfFPS = new TextField(""+MainFrame.getInstance().getFPS());
+		this.tfFPS = new TextField(""+GlobalSettings.getInstance().getFPS());
 		lFPS.getChildren().addAll(new Label("FPS: "),tfFPS);
 		
 		layout.getChildren().addAll(lMapsize,lFPS,btnAccept);

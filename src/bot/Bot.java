@@ -1,38 +1,28 @@
 package bot;
 
+import game.GlobalSettings;
 import game.controller.GameController;
 import game.model.Direction;
 import game.model.Game;
 import neuralNetwork.Matrix;
 import neuralNetwork.NeuralNetwork;
-import view.MainFrame;
 
 public class Bot implements GameController{
 
 	private NeuralNetwork nn;
+	private InputGenerator inputGenerator;
 	private Game game;
 
 	public Bot(NeuralNetwork nn,Game game){
 		this.nn = nn;
 		this.game = game;
-	}
-	
-	public Bot(NeuralNetwork nn){
-		this.nn = nn;
-	}
-	
-	public void setGame(Game game){
-		this.game = game;
-	}
-	
-	public Game getGame(){
-		return this.game;
+		this.inputGenerator = GlobalSettings.getInstance().getInputGenerator();
 	}
 	
 	@Override
 	public Direction getAction() {
-		Matrix input = MainFrame.getInstance().getInputGenerator().getInput(this.game);
-		Matrix output = nn.feedFoward(input);
+		Matrix input = this.inputGenerator.getInput(this.game);
+		Matrix output = this.nn.feedFoward(input);
 		double max = output.get(0, 0);
 		for(int i=1;i<4;i++){
 			if(output.get(0, i)>max) max = output.get(0, i);

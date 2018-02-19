@@ -3,11 +3,11 @@ package bot.learning;
 import java.util.Random;
 
 import bot.Bot;
+import game.GlobalSettings;
 import game.model.Game;
 import game.model.GameMode;
 import neuralNetwork.Matrix;
 import neuralNetwork.NeuralNetwork;
-import view.MainFrame;
 
 public class DNA {
 	//TODO: Different numLayers population
@@ -24,7 +24,7 @@ public class DNA {
 	
 	public DNA(int numLayers){
 		this.numLayers = numLayers;
-		this.inputWeights = new Matrix(MainFrame.getInstance().getInputGenerator().getNumInputs(),numLayers);
+		this.inputWeights = new Matrix(GlobalSettings.getInstance().getInputGenerator().getNumInputs(),numLayers);
 		this.outputWeights = new Matrix(numLayers,4);
 		this.bias = new Matrix[2];
 		this.bias[0] = new Matrix(1,numLayers);
@@ -113,7 +113,7 @@ public class DNA {
 	public double calculateFitness(){
 		int sum = 0;
 		for(int i=0;i<simulationNumber;i++){
-			this.game = new Game(MainFrame.getInstance().getMapSize() , GameMode.Simulation);
+			this.game = new Game(GameMode.Simulation);
 			this.game.setController(new Bot(new NeuralNetwork(this),this.game));
 			this.game.simulateGame();
 			sum += Math.pow(this.game.getApples().size(),4);
