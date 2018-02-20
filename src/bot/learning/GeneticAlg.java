@@ -25,14 +25,14 @@ public class GeneticAlg implements Runnable{
 	private TrainingWindow trainingWindow;
 	private int neuronNumber;
 	
-	public GeneticAlg(int populationSize,int mutationRate,int neuronNumber){
+	public GeneticAlg(int populationSize,int mutationRate,int neuronNumber,int numLayers){
 		this.generation = 0;
 		this.mutationRate = mutationRate;
 		this.populationSize = populationSize;
 		this.population = new DNA[populationSize];
 		this.neuronNumber = neuronNumber;
 		for(int i=0;i<populationSize;i++){
-			this.population[i] = new DNA(neuronNumber);
+			this.population[i] = new DNA(neuronNumber,numLayers);
 			this.population[i].randomize();
 		}
 	}

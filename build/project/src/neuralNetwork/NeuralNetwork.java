@@ -10,12 +10,14 @@ public class NeuralNetwork {
 	}
 	
 	public Matrix feedFoward(Matrix input){
-		Matrix hidden = input.multiply(this.genotype.getInputWeights());
-		hidden = hidden.add(this.genotype.getBias()[0]);
-		hidden.applySigmoid();
-		Matrix output = hidden.multiply(this.genotype.getOutputWeights());
-		output = output.add(this.genotype.getBias()[1]);
-		output.applySigmoid();
-		return output;
+		Matrix current = input.multiply(this.genotype.getWeights()[0]);
+		current = current.add(this.genotype.getBias()[0]);
+		current.applySigmoid();
+		for(int i=1;i<=this.genotype.getNumLayers();i++){
+			current = current.multiply(this.genotype.getWeights()[i]);
+			current = current.add(this.genotype.getBias()[i]);
+			current.applySigmoid();
+		}
+		return current;
 	}	
 }

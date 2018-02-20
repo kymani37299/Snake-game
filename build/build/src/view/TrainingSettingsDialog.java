@@ -12,6 +12,7 @@ public class TrainingSettingsDialog extends GridPane{
 	private TextField tfPopulationSize;
 	private TextField tfGenerations;
 	private TextField tfHiddenNeurons;
+	private TextField tfNumLayers;
 	
 	public TrainingSettingsDialog(){
 		this.setVgap(15);
@@ -22,20 +23,24 @@ public class TrainingSettingsDialog extends GridPane{
 		this.tfPopulationSize.setMaxWidth(50);
 		this.tfGenerations = new TextField("20");
 		this.tfGenerations.setMaxWidth(50);
-		this.tfHiddenNeurons = new TextField("100");
+		this.tfHiddenNeurons = new TextField("10");
 		this.tfHiddenNeurons.setMaxWidth(50);
+		this.tfNumLayers = new TextField("2");
+		this.tfNumLayers.setMaxWidth(50);
 		this.tfGenerations.setMaxWidth(50);
 		this.add(new Label("Population size: "), 0, 0);
 		this.add(tfPopulationSize,1,0);
 		this.add(new Label("Mutation rate: "), 0, 1);
 		this.add(tfMutationRate, 1, 1);
-		this.add(new Label("Skip generations:"), 0, 2);
-		this.add(tfGenerations, 1, 2);
-		this.add(new Label("Hidden neurons size: "), 0, 3);
-		this.add(tfHiddenNeurons, 1, 3);
+		this.add(new Label("Skip generations:"), 0, 4);
+		this.add(tfGenerations, 1, 4);
+		this.add(new Label("Hidden neurons size: "), 0, 2);
+		this.add(tfHiddenNeurons, 1, 2);
+		this.add(new Label("Number of layers: "), 0, 3);
+		this.add(tfNumLayers,1, 3);
 		Button btnOk = new Button("Ok");
 		btnOk.setOnAction(new TrainingSettingsController(this));
-		this.add(btnOk, 1, 4);
+		this.add(btnOk, 1, 5);
 	}
 
 	public TextField getTfMutationRate() {
@@ -52,6 +57,10 @@ public class TrainingSettingsDialog extends GridPane{
 
 	public TextField getTfHiddenNeurons() {
 		return tfHiddenNeurons;
+	}
+
+	public TextField getTfNumLayers() {
+		return tfNumLayers;
 	}
 	
 }
