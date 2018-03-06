@@ -81,7 +81,9 @@ public class Game extends Observable implements Runnable{
 	}
 	
 	public void startGame(){
-		new Thread(this).start();
+		Thread t = new Thread(this);
+		t.setDaemon(true);
+		t.start();
 	}
 	
 	public void simulateGame(){

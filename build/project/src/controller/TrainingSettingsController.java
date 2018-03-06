@@ -34,7 +34,9 @@ public class TrainingSettingsController implements EventHandler<ActionEvent>{
 			TrainingWindow trainingWindow = new TrainingWindow(ga);
 			ga.setTrainingWindow(trainingWindow);
 			ga.setGoalGeneration(numGenerations + ga.getGeneration());
-			new Thread(ga).start();
+			Thread t = new Thread(ga);
+			t.setDaemon(true);
+			t.start();
 			trainingWindow.show();
 			
 		}
